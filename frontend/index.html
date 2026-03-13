@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔒</text></svg>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Secure API Communication System</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <!-- Background abstract shapes -->
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <header class="header">
+      <div class="header-content">
+        <h1><span class="lock-icon">🔒</span> Secure API Communication System</h1>
+        <p class="subtitle">ECDH Key Exchange & HMAC-SHA256 Signature Verification</p>
+      </div>
+    </header>
+
+    <main class="container">
+      <div class="left-panel">
+        
+        <!-- Key Exchange Card -->
+        <section class="card glass">
+          <div class="card-header">
+            <h2>ECDH Key Exchange</h2>
+            <button id="btn-handshake" class="btn primary">Initialize Handshake</button>
+          </div>
+          
+          <div class="crypto-display">
+            <div class="key-box">
+              <span class="label">Client Public Key</span>
+              <code id="display-client-key" class="masked-text">Not generated yet...</code>
+            </div>
+            <div class="key-box">
+              <span class="label">Server Public Key</span>
+              <code id="display-server-key" class="masked-text">Waiting for handshake...</code>
+            </div>
+            <div class="key-box accent">
+              <span class="label">Shared Secret (Masked)</span>
+              <code id="display-shared-secret" class="masked-text">**********</code>
+            </div>
+          </div>
+        </section>
+
+        <!-- Secure Data Transmission Card -->
+        <section class="card glass" id="section-transmit" style="opacity: 0.5; pointer-events: none;">
+          <div class="card-header">
+            <h2>Transmit Secure Data</h2>
+          </div>
+          
+          <div class="form-group">
+            <label for="input-message">Payload (Message):</label>
+            <textarea id="input-message" rows="3" placeholder="Enter sensitive data to transmit..."></textarea>
+          </div>
+
+          <div class="attacker-panel">
+            <div class="toggle-container">
+              <label class="switch">
+                <input type="checkbox" id="toggle-attacker">
+                <span class="slider round"></span>
+              </label>
+              <div class="toggle-labels">
+                <span class="toggle-title">Simulate Man-in-the-Middle</span>
+                <span class="toggle-desc">Modifies payload after HMAC signature</span>
+              </div>
+            </div>
+          </div>
+
+          <button id="btn-send" class="btn secondary full-width">Sign & Send Request</button>
+
+        </section>
+
+        <!-- Status Badge -->
+        <section class="status-container glass">
+          <div id="status-badge" class="badge default">STANDBY</div>
+          <p id="status-message" class="status-desc">Initialize handshake to begin.</p>
+        </section>
+
+      </div>
+
+      <!-- Terminal Panel (Right side) -->
+      <div class="right-panel">
+        <div class="terminal glass">
+          <div class="terminal-header">
+            <div class="traffic-lights">
+              <span class="light red"></span>
+              <span class="light yellow"></span>
+              <span class="light green"></span>
+            </div>
+            <span class="terminal-title">system.log</span>
+          </div>
+          <div class="terminal-body" id="terminal-output">
+            <div class="log-entry info">
+              <span class="time">[INIT]</span>
+              <span class="msg">Vault UI initialized. Ready for cryptographic operations.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="glass-footer">
+      <h3>OWASP A02: Cryptographic Failures Mitigation</h3>
+      <div class="mitigation-grid">
+        <div class="mitigation-item">
+          <strong>Key Exchange (ECDH):</strong> Derives a shared secret over an insecure channel without transmitting the secret itself.
+        </div>
+        <div class="mitigation-item">
+          <strong>Data Integrity (HMAC):</strong> Ensures the payload hasn't been tampered with. The server verifies the signature using the shared secret.
+        </div>
+        <div class="mitigation-item">
+          <strong>Replay Protection:</strong> Timestamps (≤ 30s) are included in the HMAC payload to reject captured & replayed requests.
+        </div>
+      </div>
+    </footer>
+
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>

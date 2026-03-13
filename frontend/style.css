@@ -1,0 +1,190 @@
+/* ==========================================================================
+   Design System & Tokens
+   ========================================================================== */
+:root {
+  --bg-color: #0d1117;
+  --bg-gradient: radial-gradient(circle at top right, #161b22, #0d1117);
+  --glass-bg: rgba(22, 27, 34, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --accent: #00D4FF; /* Electric Blue */
+  --accent-glow: rgba(0, 212, 255, 0.3);
+  --success: #00FF88;
+  --success-glow: rgba(0, 255, 136, 0.3);
+  --danger: #FF3366;
+  --danger-glow: rgba(255, 51, 102, 0.3);
+  --text-main: #E6EDF3;
+  --text-muted: #8B949E;
+  --font-sans: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* ==========================================================================
+   Reset & Base
+   ========================================================================== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* Background Gradients / Glows */
+.glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  z-index: -1;
+  opacity: 0.5;
+}
+.glow-1 { top: -100px; left: -100px; width: 400px; height: 400px; background: var(--accent-glow); }
+.glow-2 { bottom: -100px; right: -100px; width: 500px; height: 500px; background: rgba(0, 255, 136, 0.15); }
+
+/* ==========================================================================
+   Layout
+   ========================================================================== */
+.header { padding: 2rem; border-bottom: 1px solid var(--glass-border); background: var(--glass-bg); backdrop-filter: blur(12px); }
+.header-content { max-width: 1400px; margin: 0 auto; text-align: center; }
+.header h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 0.5rem; text-shadow: 0 0 20px var(--accent-glow); }
+.subtitle { color: var(--text-muted); font-size: 1.1rem; }
+
+.container {
+  display: flex;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+  flex: 1;
+}
+
+.left-panel { flex: 1.5; display: flex; flex-direction: column; gap: 1.5rem; }
+.right-panel { flex: 1; display: flex; flex-direction: column; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .container { flex-direction: column; }
+  .right-panel { height: 500px; }
+}
+
+/* ==========================================================================
+   Components: Glassmorphism Cards
+   ========================================================================== */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.card { padding: 1.5rem; transition: opacity 0.3s ease; }
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.card-header h2 { font-size: 1.2rem; font-weight: 600; color: var(--accent); }
+
+/* Buttons */
+.btn {
+  padding: 0.6rem 1.2rem; border: none; border-radius: 8px; font-family: var(--font-sans); font-weight: 600;
+  cursor: pointer; transition: all 0.2s ease;
+}
+.btn.primary { background: var(--accent); color: #0d1117; box-shadow: 0 0 15px var(--accent-glow); }
+.btn.primary:hover { transform: translateY(-2px); box-shadow: 0 0 25px var(--accent-glow); background: #33ddff; }
+.btn.secondary { background: rgba(255, 255, 255, 0.1); color: var(--text-main); border: 1px solid var(--glass-border); }
+.btn.secondary:hover { background: rgba(255, 255, 255, 0.15); border-color: var(--accent); }
+.full-width { width: 100%; margin-top: 1rem; padding: 0.8rem; font-size: 1.1rem; }
+
+/* Forms & Inputs */
+.form-group { margin-bottom: 1.5rem; }
+.form-group label { display: block; margin-bottom: 0.5rem; color: var(--text-muted); font-size: 0.9rem; }
+textarea {
+  width: 100%; padding: 1rem; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--glass-border);
+  border-radius: 8px; color: var(--text-main); font-family: var(--font-mono); resize: vertical; transition: border-color 0.2s;
+}
+textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
+
+/* Key Display Boxes */
+.crypto-display { display: flex; flex-direction: column; gap: 0.8rem; }
+.key-box { background: rgba(0, 0, 0, 0.4); padding: 0.8rem; border-radius: 6px; border-left: 3px solid var(--glass-border); }
+.key-box.accent { border-left-color: var(--success); }
+.key-box .label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.5px; }
+.key-box code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-main); word-break: break-all; }
+.masked-text { opacity: 0.5; font-style: italic; }
+
+/* ==========================================================================
+   Toggle Switch (Attacker Simulator)
+   ========================================================================== */
+.attacker-panel { margin: 1.5rem 0; padding: 1rem; background: rgba(255, 51, 102, 0.05); border: 1px dashed rgba(255, 51, 102, 0.3); border-radius: 8px; }
+.toggle-container { display: flex; align-items: center; gap: 1rem; }
+.switch { position: relative; display: inline-block; width: 50px; height: 26px; flex-shrink: 0; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255, 255, 255, 0.1); transition: .4s; border-radius: 26px; border: 1px solid var(--glass-border); }
+.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: var(--text-muted); transition: .4s; border-radius: 50%; }
+
+input:checked + .slider { background-color: rgba(255, 51, 102, 0.2); border-color: var(--danger); }
+input:checked + .slider:before { transform: translateX(24px); background-color: var(--danger); box-shadow: 0 0 10px var(--danger); }
+
+.toggle-labels { display: flex; flex-direction: column; }
+.toggle-title { font-weight: 600; color: var(--danger); font-size: 0.95rem; }
+.toggle-desc { font-size: 0.8rem; color: var(--text-muted); }
+
+/* ==========================================================================
+   Terminal Log Viewer
+   ========================================================================== */
+.terminal { display: flex; flex-direction: column; height: 100%; border: 1px solid var(--glass-border); background: #0a0c10; overflow: hidden; }
+.terminal-header { padding: 0.8rem 1rem; background: rgba(255,255,255,0.05); border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; gap: 1rem; }
+.traffic-lights { display: flex; gap: 6px; }
+.light { width: 12px; height: 12px; border-radius: 50%; }
+.light.red { background: #ff5f56; } .light.yellow { background: #ffbd2e; } .light.green { background: #27c93f; }
+.terminal-title { font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-muted); }
+
+.terminal-body { flex: 1; padding: 1rem; overflow-y: auto; font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.5; }
+.log-entry { margin-bottom: 0.5rem; word-wrap: break-word; }
+.log-entry .time { color: var(--text-muted); margin-right: 0.5rem; font-size: 0.8rem; }
+.log-entry.info .msg { color: var(--text-main); }
+.log-entry.success .msg { color: var(--success); }
+.log-entry.error .msg { color: var(--danger); }
+.log-entry.warning .msg { color: #ffbd2e; }
+
+/* Custom Scrollbar for Terminal */
+.terminal-body::-webkit-scrollbar { width: 8px; }
+.terminal-body::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+.terminal-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+.terminal-body::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+/* ==========================================================================
+   Status Badge (Security Dashboard)
+   ========================================================================== */
+.status-container { padding: 2rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+.badge { display: inline-block; padding: 0.8rem 2rem; border-radius: 50px; font-weight: 800; font-size: 1.2rem; letter-spacing: 2px; border: 2px solid transparent; transition: all 0.3s ease; }
+.badge.default { border-color: var(--text-muted); color: var(--text-muted); }
+.badge.secure { border-color: var(--success); color: var(--success); box-shadow: 0 0 20px var(--success-glow), inset 0 0 10px var(--success-glow); animation: pulse-green 2s infinite; }
+.badge.breach { border-color: var(--danger); color: #fff; background: var(--danger); box-shadow: 0 0 30px var(--danger-glow); animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite; }
+
+.status-desc { font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-muted); }
+
+/* Animations */
+@keyframes pulse-green {
+  0% { box-shadow: 0 0 15px var(--success-glow); }
+  50% { box-shadow: 0 0 30px rgba(0,255,136,0.6); }
+  100% { box-shadow: 0 0 15px var(--success-glow); }
+}
+
+@keyframes glitch {
+  0% { transform: translate(0) }
+  20% { transform: translate(-2px, 2px) }
+  40% { transform: translate(-2px, -2px) }
+  60% { transform: translate(2px, 2px) }
+  80% { transform: translate(2px, -2px) }
+  100% { transform: translate(0) }
+}
+
+/* Footer */
+.glass-footer { margin-top: 3rem; padding: 2rem; background: var(--glass-bg); backdrop-filter: blur(12px); border-top: 1px solid var(--glass-border); }
+.glass-footer h3 { text-align: center; margin-bottom: 1.5rem; color: var(--accent); font-size: 1.1rem; }
+.mitigation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; max-width: 1400px; margin: 0 auto; }
+.mitigation-item { background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; font-size: 0.9rem; line-height: 1.6; border-left: 2px solid var(--accent); }
