@@ -18,6 +18,11 @@ This prototype was built specifically to demonstrate mitigations for **OWASP API
 6. **Timing Attack Mitigation:** The server uses `crypto.timingSafeEqual()` to safely compare signature buffers and password hashes.
 7. **Zero External Crypto Dependencies:** Relies entirely on native browser features (`window.crypto.subtle`) and Node.js built-ins (`crypto`).
 
+> [!NOTE] 
+> **Confidentiality vs. Integrity:** This prototype currently focuses on **integrity and authenticity** at the application layer by *signing* payloads with HMAC-SHA256, rather than encrypting them. Payload confidentiality in transit is currently handled entirely by the TLS/HTTPS transport layer. 
+> 
+> **Future Improvement:** To achieve true End-to-End Encryption (E2EE) at the application layer, the derived ECDH shared secret should be used with a symmetric encryption algorithm like **AES-GCM** to encrypt the payload before transmission, providing both confidentiality and authenticated encryption.
+
 ---
 
 ## 🖥️ UI & Interactive Elements
