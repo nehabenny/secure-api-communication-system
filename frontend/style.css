@@ -12,6 +12,7 @@
   --success-glow: rgba(0, 255, 136, 0.3);
   --danger: #FF3366;
   --danger-glow: rgba(255, 51, 102, 0.3);
+  --warning: #ffbd2e;
   --text-main: #E6EDF3;
   --text-muted: #8B949E;
   --font-sans: 'Inter', -apple-system, sans-serif;
@@ -83,9 +84,17 @@ body {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
-.card { padding: 1.5rem; transition: opacity 0.3s ease; }
+.card { padding: 1.5rem; transition: all 0.3s ease; }
 .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
 .card-header h2 { font-size: 1.2rem; font-weight: 600; color: var(--accent); }
+
+/* Locked sections */
+.locked-section {
+  opacity: 0.4;
+  pointer-events: none;
+  position: relative;
+  filter: saturate(0.3);
+}
 
 /* Buttons */
 .btn {
@@ -96,16 +105,77 @@ body {
 .btn.primary:hover { transform: translateY(-2px); box-shadow: 0 0 25px var(--accent-glow); background: #33ddff; }
 .btn.secondary { background: rgba(255, 255, 255, 0.1); color: var(--text-main); border: 1px solid var(--glass-border); }
 .btn.secondary:hover { background: rgba(255, 255, 255, 0.15); border-color: var(--accent); }
+.btn.danger-outline { background: transparent; color: var(--danger); border: 1px solid var(--danger); }
+.btn.danger-outline:hover { background: rgba(255, 51, 102, 0.1); box-shadow: 0 0 10px var(--danger-glow); }
 .full-width { width: 100%; margin-top: 1rem; padding: 0.8rem; font-size: 1.1rem; }
 
 /* Forms & Inputs */
-.form-group { margin-bottom: 1.5rem; }
+.form-group { margin-bottom: 1rem; }
 .form-group label { display: block; margin-bottom: 0.5rem; color: var(--text-muted); font-size: 0.9rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+input[type="text"],
+input[type="password"] {
+  width: 100%; padding: 0.8rem 1rem; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--glass-border);
+  border-radius: 8px; color: var(--text-main); font-family: var(--font-mono); font-size: 0.9rem; transition: border-color 0.2s;
+}
+input[type="text"]:focus,
+input[type="password"]:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
+input[type="text"]::placeholder,
+input[type="password"]::placeholder { color: var(--text-muted); opacity: 0.6; }
+
 textarea {
   width: 100%; padding: 1rem; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--glass-border);
   border-radius: 8px; color: var(--text-main); font-family: var(--font-mono); resize: vertical; transition: border-color 0.2s;
 }
 textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
+
+/* ==========================================================================
+   Auth Section
+   ========================================================================== */
+.auth-indicator {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+}
+.auth-indicator.offline {
+  color: var(--danger);
+  border: 1px solid rgba(255, 51, 102, 0.4);
+  background: rgba(255, 51, 102, 0.08);
+}
+.auth-indicator.online {
+  color: var(--success);
+  border: 1px solid rgba(0, 255, 136, 0.4);
+  background: rgba(0, 255, 136, 0.08);
+  animation: pulse-green-subtle 2s infinite;
+}
+
+@keyframes pulse-green-subtle {
+  0%, 100% { box-shadow: 0 0 5px rgba(0, 255, 136, 0.1); }
+  50% { box-shadow: 0 0 12px rgba(0, 255, 136, 0.3); }
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+.auth-buttons .btn { flex: 1; padding: 0.7rem; }
+
+.auth-success-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 255, 136, 0.05);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 255, 136, 0.15);
+}
+.auth-user-info { display: flex; flex-direction: column; gap: 0.2rem; }
+.auth-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.auth-username { font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700; color: var(--success); }
 
 /* Key Display Boxes */
 .crypto-display { display: flex; flex-direction: column; gap: 0.8rem; }
@@ -131,6 +201,59 @@ input:checked + .slider:before { transform: translateX(24px); background-color: 
 .toggle-labels { display: flex; flex-direction: column; }
 .toggle-title { font-weight: 600; color: var(--danger); font-size: 0.95rem; }
 .toggle-desc { font-size: 0.8rem; color: var(--text-muted); }
+
+/* ==========================================================================
+   Protected Resource Display
+   ========================================================================== */
+
+.muted-text { color: var(--text-muted); font-size: 0.9rem; font-style: italic; }
+.error-text { color: var(--danger); font-weight: 600; }
+
+.classified-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 1rem;
+}
+.classified-tag {
+  background: linear-gradient(135deg, var(--danger), #cc2255);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+.classified-time {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.classified-msg {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+.records-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.record-row {
+  display: flex; align-items: center; gap: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.7rem 1rem;
+  border-radius: 6px;
+  border-left: 3px solid var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+.record-id { color: var(--text-muted); min-width: 2rem; }
+.record-name { flex: 1; color: var(--text-main); }
+.clearance-badge {
+  background: rgba(0, 212, 255, 0.1);
+  color: var(--accent);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  border: 1px solid rgba(0, 212, 255, 0.3);
+}
 
 /* ==========================================================================
    Terminal Log Viewer

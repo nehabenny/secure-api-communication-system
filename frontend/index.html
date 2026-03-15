@@ -16,15 +16,48 @@
     <header class="header">
       <div class="header-content">
         <h1><span class="lock-icon">🔒</span> Secure API Communication System</h1>
-        <p class="subtitle">ECDH Key Exchange & HMAC-SHA256 Signature Verification</p>
+        <p class="subtitle">ECDH Key Exchange &amp; HMAC-SHA256 Signature Verification</p>
       </div>
     </header>
 
     <main class="container">
       <div class="left-panel">
         
+        <!-- Authentication Gate -->
+        <section class="card glass" id="section-auth">
+          <div class="card-header">
+            <h2>🔑 User Authentication</h2>
+            <span id="auth-indicator" class="auth-indicator offline">Not Authenticated</span>
+          </div>
+
+          <div id="auth-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="input-username">Username</label>
+                <input type="text" id="input-username" placeholder="Enter username (≥ 3 chars)" autocomplete="off">
+              </div>
+              <div class="form-group">
+                <label for="input-password">Password</label>
+                <input type="password" id="input-password" placeholder="Enter password (≥ 6 chars)" autocomplete="off">
+              </div>
+            </div>
+            <div class="auth-buttons">
+              <button id="btn-register" class="btn secondary">Register</button>
+              <button id="btn-login" class="btn primary">Login</button>
+            </div>
+          </div>
+
+          <div id="auth-success" class="auth-success-info" style="display: none;">
+            <div class="auth-user-info">
+              <span class="auth-label">Logged in as:</span>
+              <span id="auth-username-display" class="auth-username"></span>
+            </div>
+            <button id="btn-logout" class="btn danger-outline">Logout</button>
+          </div>
+        </section>
+
         <!-- Key Exchange Card -->
-        <section class="card glass">
+        <section class="card glass locked-section" id="section-handshake">
           <div class="card-header">
             <h2>ECDH Key Exchange</h2>
             <button id="btn-handshake" class="btn primary">Initialize Handshake</button>
@@ -47,7 +80,7 @@
         </section>
 
         <!-- Secure Data Transmission Card -->
-        <section class="card glass" id="section-transmit" style="opacity: 0.5; pointer-events: none;">
+        <section class="card glass locked-section" id="section-transmit">
           <div class="card-header">
             <h2>Transmit Secure Data</h2>
           </div>
@@ -70,14 +103,25 @@
             </div>
           </div>
 
-          <button id="btn-send" class="btn secondary full-width">Sign & Send Request</button>
+          <button id="btn-send" class="btn secondary full-width">Sign &amp; Send Request</button>
 
+        </section>
+
+        <!-- Protected Resource Card -->
+        <section class="card glass locked-section" id="section-protected">
+          <div class="card-header">
+            <h2>🛡️ Protected Resource</h2>
+            <button id="btn-fetch-resource" class="btn primary">Fetch Classified Data</button>
+          </div>
+          <div id="protected-data-display" class="protected-data-container">
+            <p class="muted-text">Authenticate and click "Fetch Classified Data" to access the protected API endpoint.</p>
+          </div>
         </section>
 
         <!-- Status Badge -->
         <section class="status-container glass">
           <div id="status-badge" class="badge default">STANDBY</div>
-          <p id="status-message" class="status-desc">Initialize handshake to begin.</p>
+          <p id="status-message" class="status-desc">Authenticate to begin secure operations.</p>
         </section>
 
       </div>
@@ -96,7 +140,7 @@
           <div class="terminal-body" id="terminal-output">
             <div class="log-entry info">
               <span class="time">[INIT]</span>
-              <span class="msg">Vault UI initialized. Ready for cryptographic operations.</span>
+              <span class="msg">Vault UI initialized. Authenticate to begin cryptographic operations.</span>
             </div>
           </div>
         </div>
@@ -113,7 +157,10 @@
           <strong>Data Integrity (HMAC):</strong> Ensures the payload hasn't been tampered with. The server verifies the signature using the shared secret.
         </div>
         <div class="mitigation-item">
-          <strong>Replay Protection:</strong> Timestamps (≤ 30s) are included in the HMAC payload to reject captured & replayed requests.
+          <strong>Replay Protection:</strong> Timestamps (≤ 30s) are included in the HMAC payload to reject captured &amp; replayed requests.
+        </div>
+        <div class="mitigation-item">
+          <strong>HTTPS / TLS:</strong> All API communication is encrypted in transit using TLS with a self-signed certificate.
         </div>
       </div>
     </footer>

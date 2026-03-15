@@ -5,10 +5,13 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "dev": "node --watch server.js"
+    "dev": "node --watch server.js",
+    "generate-cert": "node generate-cert.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "node-forge": "^1.3.3",
+    "selfsigned": "^5.5.0"
   }
 }
